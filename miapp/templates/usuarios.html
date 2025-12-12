@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios Registrados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+
+        .usuarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .usuario-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .usuario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .usuario-imagen {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .usuario-info {
+            padding: 20px;
+        }
+
+        .usuario-nombre {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+
+        .usuario-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-actualizar,
+        .btn-eliminar {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .btn-actualizar {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-actualizar:hover {
+            background: #5568d3;
+        }
+
+        .btn-eliminar {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-eliminar:hover {
+            background: #ff5252;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            color: #666;
+        }
+
+        .current-user-badge {
+            display: inline-block;
+            background: #51cf66;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>👥 Usuarios Registrados</h1>
+                <p>Sesión activa: <strong>{{ username_actual }}</strong></p>
+            </div>
+            <a href="{% url 'login' %}" class="logout-btn">Cerrar Sesión</a>
+        </div>
+
+        {% if usuarios %}
+            <div class="usuarios-grid">
+                {% for usuario in usuarios %}
+                    <div class="usuario-card">
+                        {% if usuario.imagen_url %}
+                            <img src="{{ usuario.imagen_url }}" alt="{{ usuario.username }}" class="usuario-imagen">
+                        {% else %}
+                            <div class="usuario-imagen">
+                                <span>Sin imagen</span>
+                            </div>
+                        {% endif %}
+                        <div class="usuario-info">
+                            <div class="usuario-nombre">
+                                {{ usuario.username }}
+                                {% if usuario.username == username_actual %}
+                                    <span class="current-user-badge">Tú</span>
+                                {% endif %}
+                            </div>
+                            <div class="usuario-actions">
+                                <a href="{% url 'actualizar' usuario.id %}" class="btn-actualizar">✏️ Actualizar</a>
+                                <a href="{% url 'eliminar' usuario.id %}" class="btn-eliminar" onclick="return confirm('¿Deseas eliminar este usuario?')">🗑️ Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="mensaje-vacio">
+                <p>No hay usuarios registrados aún</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

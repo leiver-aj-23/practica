@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourLoan - Registro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 60px 50px;
+            text-align: center;
+        }
+
+        /* Logo/Título */
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .form-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 35px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Mensajes de error */
+        .error-message {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+            padding: 12px 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        /* Contenedor de dos columnas */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        /* Grupos de formulario */
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f8f8;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: white;
+            border-color: #FF9800;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        /* Botón de envío */
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #FF9800 0%, #FB8C00 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(135deg, #FB8C00 0%, #F57C00 100%);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        /* Footer del formulario */
+        .form-footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .form-footer a {
+            color: #FF9800;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .form-footer a:hover {
+            color: #FB8C00;
+            text-decoration: underline;
+        }
+
+        .login-link {
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .register-card {
+                padding: 40px 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .form-title {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-card">
+        <!-- Logo -->
+        <div class="logo">¡Regístrate en YourZone!</div>
+        <!-- Título del formulario -->
+        <h2 class="form-title">Información de la cuenta</h2>
+
+        <!-- Mensaje de error si existe -->
+        {% if infosms %}
+            <div class="error-message">
+                {{ infosms }}
+                {% if infosms2 %}
+                    <br>
+                    {{ infosms2 }}
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <!-- Formulario -->
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <!-- Fila 1: Nombre y Apellido -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="username">Nombre</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Tu nombre de usuario"
+                        required
+                        autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellidos</label>
+                    <input 
+                        type="text" 
+                        id="apellido" 
+                        name="apellido" 
+                        placeholder="Opcional"
+                        value="{{ request.POST.apellido }}">
+                </div>
+            </div>
+
+            <!-- Fila 2: Email y Contraseña -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="tu@email.com"
+                        value="{{ request.POST.email }}">
+                </div>
+                <div class="form-group">
+                    <label for="password1">Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password1" 
+                        name="password1" 
+                        placeholder="Mínimo 6 caracteres"
+                        required>
+                </div>
+            </div>
+
+            <!-- Fila 3: Confirmar Contraseña (Full Width) -->
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="password2">Confirmar Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password2" 
+                        name="password2" 
+                        placeholder="Repite tu contraseña"
+                        required>
+                </div>
+            </div>
+
+            <!-- Botón Enviar -->
+            <button type="submit" class="submit-button">Enviar</button>
+        </form>
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <div class="login-link">
+                ¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Modificar libro</title>
+    <style>
+        body {
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .button-home {
+            background: #FF9800;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        
+        .button-home:hover {
+            background: #FF9800;
+        }
+        
+        h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #FF9800;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+        
+        button {
+            background: #FF9800;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            flex: 1;
+        }
+        
+        button:hover {
+            background: #FB8C00;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Modificar libro</h2>
+        <a href="{% url 'home_biblioteca' %}" class="button-home">Volver al home</a>
+    </div>
+    
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Título</label>
+                <input name="titulo" value="{{ libro.titulo }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Autor</label>
+                <input name="autor" value="{{ libro.autor }}">
+            </div>
+            
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea name="descripcion" rows="5">{{ libro.descripcion }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Editorial</label>
+                <input name="editorial" value="{{ libro.editorial }}">
+            </div>
+            
+            <div class="form-group">
+                <label>Año</label>
+                <input name="año" type="number" min="1000" max="2099" value="{{ libro.año }}">
+            </div>
+            
+            <div class="form-group">
+                <label>Categoría</label>
+                <select name="categoria">
+                    <option value="Libros" {% if libro.categoria == 'Libros' %}selected{% endif %}>Libros</option>
+                    <option value="Carrera laboral" {% if libro.categoria == 'Carrera laboral' %}selected{% endif %}>Carrera laboral</option>
+                    <option value="Matemáticas" {% if libro.categoria == 'Matemáticas' %}selected{% endif %}>Matemáticas</option>
+                    <option value="Tecnología e informática" {% if libro.categoria == 'Tecnología e informática' %}selected{% endif %}>Tecnología e informática</option>
+                    <option value="Arte y humanidades" {% if libro.categoria == 'Arte y humanidades' %}selected{% endif %}>Arte y humanidades</option>
+                    <option value="Música" {% if libro.categoria == 'Música' %}selected{% endif %}>Música</option>
+                    <option value="Educación y pedagogía" {% if libro.categoria == 'Educación y pedagogía' %}selected{% endif %}>Educación y pedagogía</option>
+                    <option value="Religión y espiritualismo" {% if libro.categoria == 'Religión y espiritualismo' %}selected{% endif %}>Religión y espiritualismo</option>
+                    <option value="Administración y gestión personal" {% if libro.categoria == 'Administración y gestión personal' %}selected{% endif %}>Administración y gestión personal</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Imagen URL</label>
+                <input type="url" name="imagen_url" value="{{ libro.imagen_url }}">
+            </div>
+            
+            <div class="form-group">
+                <label>Stock</label>
+                <input name="stock" type="number" min="0" value="{{ libro.stock }}">
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">Guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

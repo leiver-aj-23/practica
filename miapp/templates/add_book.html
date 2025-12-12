@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Agregar libro</title>
+    <style>
+        body {
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-link {
+            color: #FF9800;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-link:hover {
+            color: #FB8C00;
+        }
+        
+        .button-home {
+            background: #FF9800;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .button-home:hover {
+            background: #FB8C00;
+        }
+        
+        h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #FF9800;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+        }
+        
+        .form-help {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+        
+        button {
+            background: #FF9800;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            flex: 1;
+        }
+        
+        button:hover {
+            background: #FB8C00;
+        }
+        
+        img {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Agregar libro</h2>
+        <a href="{% url 'home_biblioteca' %}" class="button-home">Volver al home</a>
+    </div>
+    
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Imagen URL</label>
+                <input type="url" name="imagen_url" placeholder="https://...">
+                <p class="form-help">La URL será mostrada cuando guardas el libro.</p>
+            </div>
+            
+            <div class="form-group">
+                <label>Nombre del libro</label>
+                <input name="titulo" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Autor</label>
+                <input name="autor">
+            </div>
+            
+            <div class="form-group">
+                <label>Editorial</label>
+                <input name="editorial">
+            </div>
+            
+            <div class="form-group">
+                <label>Categoría</label>
+                <select name="categoria">
+                    <option value="Libros">Libros</option>
+                    <option value="Carrera laboral">Carrera laboral</option>
+                    <option value="Matemáticas">Matemáticas</option>
+                    <option value="Tecnología e informática">Tecnología e informática</option>
+                    <option value="Arte y humanidades">Arte y humanidades</option>
+                    <option value="Música">Música</option>
+                    <option value="Educación y pedagogía">Educación y pedagogía</option>
+                    <option value="Religión y espiritualismo">Religión y espiritualismo</option>
+                    <option value="Administración y gestión personal">Administración y gestión personal</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Año de lanzamiento</label>
+                <input name="año" type="number" min="1000" max="2099">
+            </div>
+            
+            <div class="form-group">
+                <label>Resumen</label>
+                <textarea name="resumen" rows="5"></textarea>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">Agregar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

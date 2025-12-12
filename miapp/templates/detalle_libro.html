@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ libro.titulo }} - YourZone</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; color:#333; }
+        .container { max-width:900px; margin:40px auto; background:white; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.08); overflow:hidden; }
+        .media { display:flex; gap:20px; padding:30px; align-items:flex-start; }
+        .cover { width:260px; height:360px; background:#eee; display:flex; align-items:center; justify-content:center; border-radius:6px; overflow:hidden; }
+        .cover img { width:100%; height:100%; object-fit:cover; }
+        .meta { flex:1; }
+        .title { font-size:22px; font-weight:700; color:#222; margin-bottom:8px; }
+        .author { color:#777; margin-bottom:12px; }
+        .info { margin-bottom:14px; font-size:14px; color:#444; }
+        .label { font-weight:700; color:#555; }
+        .back { display:inline-block; margin:20px 30px; padding:10px 14px; background:#FF9800; color:white; border-radius:6px; text-decoration:none; }
+        .summary { padding:0 30px 30px 30px; color:#555; line-height:1.6; }
+        @media (max-width:700px){ .media{flex-direction:column; align-items:center;} .cover{width:60%; height:320px;} .back{margin-left:30px;} }
+    </style>
+</head>
+<body>
+    <a class="back" href="{% url 'home_biblioteca' %}">← Volver</a>
+    <div class="container">
+        <div class="media">
+            <div class="cover">
+                {% if libro.imagen_url %}
+                    <img src="{{ libro.imagen_url }}" alt="{{ libro.titulo }}">
+                {% else %}
+                    <div style="color:#999;">Sin imagen</div>
+                {% endif %}
+            </div>
+            <div class="meta">
+                <div class="title">{{ libro.titulo }}</div>
+                <div class="author">Autor: {{ libro.autor }}</div>
+                <div class="info"><span class="label">Editorial:</span> {{ libro.editorial }}</div>
+                <div class="info"><span class="label">Año de publicación:</span> {{ libro.año }}</div>
+                <div class="info"><span class="label">Resumen:</span></div>
+                <div class="summary">{{ libro.resumen }}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourZone - Biblioteca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Navegación Superior */
+        .navbar {
+            background: white;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF9800;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        .navbar-search {
+            flex: 1;
+            margin: 0 40px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f8f8f8;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #FF9800;
+            background: white;
+        }
+
+        .search-btn {
+            padding: 10px 15px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #FB8C00;
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .navbar-icons > span {
+            transition: color 0.3s;
+        }
+
+        .navbar-icons > span:hover {
+            color: #FF9800;
+        }
+
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-badge {
+            background: #8B5CF6;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .user-badge:hover {
+            background: #7C3AED;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            z-index: 1;
+            top: 50px;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-content a:first-child {
+            border-radius: 6px 6px 0 0;
+        }
+
+        .dropdown-content a:last-child {
+            border-radius: 0 0 6px 6px;
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: #f8f8f8;
+            color: #FF9800;
+        }
+
+        .user-menu:hover .dropdown-content {
+            display: block;
+        }
+        /* Mostrar dropdown cuando el contenedor tiene la clase .open (toggle por click) */
+        .user-menu.open .dropdown-content {
+            display: block;
+        }
+
+        /* Menú de Categorías */
+        .categories-menu {
+            background: white;
+            padding: 15px 50px;
+            display: flex;
+            gap: 30px;
+            border-bottom: 1px solid #eee;
+            overflow-x: auto;
+        }
+
+        .categories-menu a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 0;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .categories-menu a:hover,
+        .categories-menu a.active {
+            color: #FF9800;
+            border-bottom-color: #FF9800;
+        }
+
+        /* Contenedor principal */
+        .main-content {
+            padding: 40px 50px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+        }
+
+        /* Grid de libros */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px; /* reducir el espacio entre tarjetas */
+            margin-bottom: 30px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #FF9800 0%, #FB8C00 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        .book-info {
+            padding: 20px;
+        }
+
+        .book-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .book-author {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .book-description {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .book-year {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .book-action {
+            background: #FF9800;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .book-action:hover {
+            background: #FB8C00;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                gap: 20px;
+            }
+
+            .navbar {
+                padding: 15px 30px;
+            }
+
+            .categories-menu {
+                padding: 15px 30px;
+            }
+
+            .main-content {
+                padding: 30px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+
+            .navbar-search {
+                margin: 10px 0;
+                flex: 1 0 100%;
+                order: 3;
+            }
+
+            .categories-menu {
+                padding: 10px 20px;
+                gap: 15px;
+            }
+
+            .main-content {
+                padding: 20px 20px;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .navbar-brand {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand {
+                font-size: 18px;
+            }
+
+            .navbar-search {
+                display: none;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Superior -->
+    <nav class="navbar">
+        <div class="navbar-brand">YourZone</div>
+        <div class="navbar-search">
+            <form method="get" action="" style="display:flex; width:100%; gap:10px;">
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" class="search-input" placeholder="Buscar por título, autor o descripción...">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+        <div class="navbar-right">
+            <!-- Notificaciones eliminadas por petición del usuario -->
+            <div class="user-menu">
+                <div class="user-badge">{{ primera_letra }}</div>
+                <div class="dropdown-content">
+                    {% if request.session.is_admin %}
+                        <a href="{% url 'add_book' %}">Agregar libro</a>
+                        <a href="{% url 'search_modify_book' %}">Modificar libro</a>
+                        <a href="{% url 'delete_books' %}">Eliminar libro</a>
+                        <div style="border-top:1px solid #f0f0f0"></div>
+                    {% endif %}
+                    <a href="{% url 'logout' %}">Cerrar sesión</a>
+                </div>
+            </div>
+                </div>
+            </nav>
+    <!-- Menú de Categorías -->
+    <div class="categories-menu">
+        {% for categoria in categorias %}
+            <a href="?categoria={{ categoria }}" 
+               class="{% if categoria == categoria_seleccionada %}active{% endif %}">
+                {{ categoria }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-content">
+        <h2 class="section-title">Libros destacados - {{ categoria_seleccionada }}</h2>
+
+        <div class="books-grid">
+            {% for libro in libros %}
+            <!-- Tarjeta de libro -->
+            <div class="book-card">
+                <div class="book-image">
+                    {% if libro.imagen_url %}
+                        <a href="{% url 'detalle_libro' libro.id %}"><img src="{{ libro.imagen_url }}" alt="{{ libro.titulo }}"></a>
+                    {% else %}
+                        <a href="{% url 'detalle_libro' libro.id %}"><div class="book-placeholder">Sin imagen</div></a>
+                    {% endif %}
+                </div>
+                <div class="book-info">
+                    <div class="book-title"><a href="{% url 'detalle_libro' libro.id %}" style="text-decoration:none;color:inherit">{{ libro.titulo }}</a></div>
+                    <div class="book-author">{{ libro.autor }}</div>
+                    <div class="book-description">
+                        {{ libro.descripcion }}
+                    </div>
+                    <div class="book-footer">
+                        <div class="book-year">{{ libro.año }}</div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">
+                No hay libros en esta categoría
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+    <script>
+        // Toggle dropdown on click and close when clicking outside
+        (function(){
+            const userMenu = document.querySelector('.user-menu');
+            if(!userMenu) return;
+            const badge = userMenu.querySelector('.user-badge');
+
+            badge.addEventListener('click', function(evt){
+                evt.stopPropagation();
+                userMenu.classList.toggle('open');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', function(){
+                if(userMenu.classList.contains('open')){
+                    userMenu.classList.remove('open');
+                }
+            });
+
+            // Prevent dropdown clicks from closing immediately
+            const dropdown = userMenu.querySelector('.dropdown-content');
+            if(dropdown){
+                dropdown.addEventListener('click', function(evt){
+                    evt.stopPropagation();
+                });
+            }
+        })();
+    </script>
+</html>
