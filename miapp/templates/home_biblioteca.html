@@ -229,13 +229,7 @@
         .book-image {
             width: 100%;
             height: 280px;
-            background: linear-gradient(135deg, #FF9800 0%, #FB8C00 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            color: white;
-            font-weight: 700;
+            background: transparent;
             position: relative;
             overflow: hidden;
         }
@@ -244,11 +238,20 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .book-placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: white;
             text-align: center;
+            background: linear-gradient(135deg, #FF9800 0%, #FB8C00 100%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
         }
 
         .book-info {

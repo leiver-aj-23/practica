@@ -200,9 +200,9 @@ def detalle_libro(request, book_id):
     if 'user_id' not in request.session:
         return redirect('login')
 
-    libros = get_libros()
-    libro = next((l for l in libros if l['id'] == book_id), None)
-    if not libro:
+    try:
+        libro = Libro.objects.get(id=book_id)
+    except Libro.DoesNotExist:
         return redirect('home_biblioteca')
 
     return render(request, 'detalle_libro.html', {'libro': libro})

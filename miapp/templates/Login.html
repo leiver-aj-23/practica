@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login con Estilos Internos</title>
+    <style>
+        /* 1. Estilos Base y Fondo Degradado */
+        body {
+            font-family: 'Poppins', sans-serif; /* Fuente moderna */
+            background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%); /* Degradado Azul/Cian */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* 2. Contenedor Principal (La 'Tarjeta' o Card) */
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semi-transparente */
+            padding: 40px;
+            border-radius: 15px; /* Bordes más redondeados */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada y suave */
+            width: 380px;
+            text-align: center;
+        }
+
+        /* 3. Título */
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: #2193b0;
+            font-weight: 600;
+            border-bottom: 2px solid #2193b0;
+            padding-bottom: 10px;
+        }
+
+        /* 4. Grupos de Input */
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            color: #555555;
+            font-size: 14px;
+        }
+
+        /* 5. Estilo de los Campos de Entrada */
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .input-group input:focus {
+            border-color: #6dd5ed;
+            box-shadow: 0 0 5px rgba(109, 213, 237, 0.5);
+            outline: none;
+        }
+
+        /* 6. Botón de Iniciar Sesión */
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #2193b0, #6dd5ed); /* Degradado en el botón */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(33, 147, 176, 0.4);
+        }
+
+        .login-button:hover {
+            background: linear-gradient(45deg, #186a82, #47b2cc);
+        }
+        
+        /* 7. Enlace de Contraseña Olvidada */
+        .forgot-password {
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .forgot-password a {
+            color: #2193b0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <h2>✨ Bienvenido de vuelta</h2>
+        {% if error %}
+            <div style="background: #ffe6e6; border-left: 5px solid #ff4d4d; padding: 12px 18px; margin-bottom: 20px; border-radius: 4px; color: #d32f2f;">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="login-button">Iniciar Sesión</button>
+        </form>
+        <div class="forgot-password">
+            ¿No tienes cuenta? <a href="{% url 'formulario' %}">Regístrate aquí</a>
+        </div>
+    </div>
+</body>
+</html>
